@@ -25,6 +25,7 @@ class MinHeap:
     def __init__(self):
         self.heap = []
 
+    # Modificar la función insert, para retornar el nivel en el árbol en el que el paciente fue ingresado
     def insert(self, paciente):
         node = Node(paciente)
         self.heap.append(node)
@@ -43,7 +44,7 @@ class MinHeap:
 
         root = self.heap[0]
         self.heap[0] = self.heap.pop()
-        self._bubble_down(0)
+        self.ordenar_hacia_abajo(0)
         return root.paciente
 
     def remove(self, paciente):
@@ -53,7 +54,7 @@ class MinHeap:
                     return self.heap.pop().paciente
                 nodo_a_eliminar = self.heap[i]
                 self.heap[i] = self.heap.pop()
-                self._bubble_down(i)
+                self.ordenar_hacia_abajo(i)
                 self.ordenar_hacia_arriba(i)
                 return nodo_a_eliminar.paciente
         return None
@@ -64,7 +65,7 @@ class MinHeap:
             self.heap[index], self.heap[parent_index] = self.heap[parent_index], self.heap[index]
             self.ordenar_hacia_arriba(parent_index)
 
-    def _bubble_down(self, index):
+    def ordenar_hacia_abajo(self, index):
         left_child_index = 2 * index + 1
         right_child_index = 2 * index + 2
         priority = index
@@ -77,7 +78,7 @@ class MinHeap:
 
         if priority != index:
             self.heap[index], self.heap[priority] = self.heap[priority], self.heap[index]
-            self._bubble_down(priority)
+            self.ordenar_hacia_abajo(priority)
 
     def print_tree(self, index=0, prefix="", is_left=True):
         if index >= len(self.heap) or self.heap[index] is None:
@@ -131,7 +132,7 @@ class GestionUrgencias:
                 if paciente_a_borrar:
                     print(f"Paciente eliminado: {paciente_a_borrar}")
                     return paciente_a_borrar
-                self.heap._bubble_down(0)
+                self.heap.ordenar_hacia_abajo(0)
         return None
 
     def imprimir_arbol(self):
@@ -140,7 +141,9 @@ class GestionUrgencias:
 """
 gestion = GestionUrgencias()
 gestion.registrar_paciente("M", "Lasso", 19, 4)
+
 gestion.registrar_paciente("F", "Adely", 22, 2)
+
 gestion.registrar_paciente("M", "Lopez", 19, 1)
 gestion.registrar_paciente("F", "Doanza", 44, 4)
 
